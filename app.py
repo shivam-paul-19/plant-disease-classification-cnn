@@ -10,10 +10,9 @@ import cv2
 # 1. PAGE CONFIGURATION & METADATA
 # ----------------------------------------------------
 st.set_page_config(
-    page_title="FloraCare AI - Explainable Plant Clinic",
-    page_icon="🌱",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    page_title="CropCare AI - Explainable Plant Clinic",
+    page_icon="🌿",
+    layout="wide"
 )
 
 # ----------------------------------------------------
@@ -30,10 +29,15 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
     color: #e2e8f0;
 }
 
-/* Sidebar styling */
-[data-testid="stSidebar"] {
-    background-color: #0f172a !important;
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
+/* Hide the sidebar so the app reads as a single main page */
+[data-testid="stSidebar"],
+[data-testid="stSidebarNav"],
+[data-testid="collapsedControl"] {
+    display: none !important;
+}
+
+[data-testid="stAppViewContainer"] {
+    margin-left: 0 !important;
 }
 
 /* Custom Header elements */
@@ -553,29 +557,14 @@ def predict_and_explain(image_bytes, model):
     return predicted_label, confidence_score, overlaid_image
 
 # ----------------------------------------------------
-# 8. APP INTERFACE LAYOUT & SIDEBAR
+# 8. APP INTERFACE LAYOUT
 # ----------------------------------------------------
-st.sidebar.markdown("""
-<div style='text-align: center; margin-bottom: 20px;'>
-    <h2 style='color: #10b981; margin-bottom: 0px;'>🌿 FloraCare AI</h2>
-    <p style='color: #64748b; font-size: 0.9rem;'>Deep Learning Plant Clinic</p>
-</div>
-""", unsafe_allow_html=True)
-
-st.sidebar.markdown("### 📊 Model Specifications")
-st.sidebar.markdown("""
-- **Backend Model**: Custom 4-Block CNN (Convolutional Neural network)
-- **Trained Classes**: 38 unique plant-disease groups
-- **Validation Accuracy**: 98.58%
-- **Explainability Engine**: Grad-CAM (Gradient Class Activation Mapping)
-""")
-
-st.sidebar.markdown("### 💻 Supported Crops")
-st.sidebar.write("Tomato, Grape, Orange (Citrus), Soybean, Squash, Potato, Corn, Strawberry, Peach, Apple, Blueberry, Cherry, Bell Pepper, Raspberry.")
-
-# Main app title area
-st.markdown("<div class='main-header'>FloraCare AI</div>", unsafe_allow_html=True)
+st.markdown("<div class='main-header'>CropCare AI</div>", unsafe_allow_html=True)
 st.markdown("<div class='subheader'>Scan your crops using state-of-the-art Deep Learning to identify diseases and receive organic treatment guidelines instantly.</div>", unsafe_allow_html=True)
+
+st.markdown("### Supported Crops", unsafe_allow_html=True)
+st.markdown("Tomato, Grape, Orange (Citrus), Soybean, Squash, Potato, Corn, Strawberry, Peach, Apple, Blueberry, Cherry, Bell Pepper, Raspberry.", unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
 if not model_loaded:
     st.warning("⚠️ Application is running in demo mode because the weight file could not be found.")
@@ -584,7 +573,7 @@ if not model_loaded:
 col_left, col_right = st.columns([1, 1.2], gap="large")
 
 with col_left:
-    st.markdown("<div class='premium-card'><div class='card-title'>📤 Upload Leaf Image</div>", unsafe_allow_html=True)
+    st.markdown("<div class='premium-card'><div class='card-title'>🌿 Upload Leaf Image</div>", unsafe_allow_html=True)
     
     uploaded_file = st.file_uploader(
         "Select or drag & drop a plant leaf photo (JPG/PNG)", 
@@ -598,11 +587,11 @@ with col_left:
         file_bytes = uploaded_file.read()
         
         # Display side-by-side comparison of original and Grad-CAM in the left column
-        st.markdown("<div class='premium-card'><div class='card-title'>🔍 Diagnostic Imaging Compare</div>", unsafe_allow_html=True)
+        st.markdown("<div class='premium-card'><div class='card-title'>🩺 Diagnostic Imaging Compare</div>", unsafe_allow_html=True)
         
         # Run prediction on upload
         if model_loaded:
-            with st.spinner("🔬 Running deep neural network and Grad-CAM analysis..."):
+            with st.spinner("🔃 Running deep neural network and Grad-CAM analysis..."):
                 label, conf, overlaid_img = predict_and_explain(file_bytes, model)
                 
             img_col1, img_col2 = st.columns(2)
@@ -615,7 +604,7 @@ with col_left:
                 
             st.markdown("""
             <div style='margin-top: 14px; padding: 12px; background: rgba(30, 41, 59, 0.4); border-radius: 8px; font-size: 0.88rem; color: #94a3b8; line-height: 1.4;'>
-                🧠 <b>Explainability Legend:</b> The glowing <b>red/orange</b> hotspots represent the exact biological markers (e.g. necrotic spots, lesions, vein yellowing) that the model focused on to make its diagnosis. Blue/green zones were ignored.
+                🤖 <b>Explainability Legend:</b> The glowing <b>red/orange</b> hotspots represent the exact biological markers (e.g. necrotic spots, lesions, vein yellowing) that the model focused on to make its diagnosis. Blue/green zones were ignored.
             </div>
             """, unsafe_allow_html=True)
             st.markdown("</div>", unsafe_allow_html=True)
@@ -700,7 +689,8 @@ with col_right:
     else:
         # Default screen when no file is uploaded
         st.markdown("<div class='premium-card' style='text-align: center; padding: 60px 40px;'>", unsafe_allow_html=True)
-        st.markdown("<span style='font-size: 4rem;'>🌱</span>", unsafe_allow_html=True)
+        st.markdown("<span style='font-size: 4rem;'>🌿</span>", unsafe_allow_html=True)
         st.markdown("### Awaiting Plant Leaf Upload", unsafe_allow_html=True)
         st.markdown("<p style='color: #64748b;'>Upload a close-up photo of a crop leaf from your computer to run the high-precision diagnosis pipeline.</p>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
+

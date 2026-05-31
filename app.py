@@ -240,44 +240,44 @@ except Exception as e:
 # 5. DICTIONARY MAPPINGS & ADVISORY DATABASE
 # ----------------------------------------------------
 ID_TO_LABEL = {
-    0: 'Tomato Late blight',
-    1: 'Tomato healthy',
-    2: 'Grape healthy',
-    3: 'Orange Haunglongbing (Citrus greening)',
-    4: 'Soybean healthy',
-    5: 'Squash Powdery mildew',
-    6: 'Potato healthy',
-    7: 'Corn (maize) Northern Leaf Blight',
-    8: 'Tomato Early blight',
-    9: 'Tomato Septoria leaf spot',
-    10: 'Corn (maize) Cercospora leaf spot Gray leaf spot',
-    11: 'Strawberry Leaf scorch',
-    12: 'Peach healthy',
-    13: 'Apple Apple scab',
-    14: 'Tomato Tomato Yellow Leaf Curl Virus',
-    15: 'Tomato Bacterial spot',
-    16: 'Apple Black rot',
-    17: 'Blueberry healthy',
-    18: 'Cherry (including sour) Powdery mildew',
-    19: 'Peach Bacterial spot',
-    20: 'Apple Cedar apple rust',
-    21: 'Tomato Target Spot',
-    22: 'Pepper, bell healthy',
-    23: 'Grape Leaf blight (Isariopsis Leaf Spot)',
-    24: 'Potato Late blight',
-    25: 'Tomato Tomato mosaic virus',
-    26: 'Strawberry healthy',
-    27: 'Apple healthy',
-    28: 'Grape Black rot',
-    29: 'Potato Early blight',
-    30: 'Cherry (including sour) healthy',
-    31: 'Corn (maize) Common rust ',
-    32: 'Grape Esca (Black Measles)',
-    33: 'Raspberry healthy',
-    34: 'Tomato Leaf Mold',
-    35: 'Tomato Spider mites Two-spotted spider mite',
-    36: 'Pepper, bell Bacterial spot',
-    37: 'Corn (maize) healthy'
+    0: {'name': 'Tomato', 'disease': 'Late blight'},
+    1: {'name': 'Tomato', 'disease': 'healthy'},
+    2: {'name': 'Grape', 'disease': 'healthy'},
+    3: {'name': 'Orange', 'disease': 'Haunglongbing (Citrus greening)'},
+    4: {'name': 'Soybean', 'disease': 'healthy'},
+    5: {'name': 'Squash', 'disease': 'Powdery mildew'},
+    6: {'name': 'Potato', 'disease': 'healthy'},
+    7: {'name': 'Corn (maize)', 'disease': 'Northern Leaf Blight'},
+    8: {'name': 'Tomato', 'disease': 'Early blight'},
+    9: {'name': 'Tomato', 'disease': 'Septoria leaf spot'},
+    10: {'name': 'Corn (maize)', 'disease': 'Cercospora leaf spot Gray leaf spot'},
+    11: {'name': 'Strawberry', 'disease': 'Leaf scorch'},
+    12: {'name': 'Peach', 'disease': 'healthy'},
+    13: {'name': 'Apple', 'disease': 'Apple scab'},
+    14: {'name': 'Tomato', 'disease': 'Tomato Yellow Leaf Curl Virus'},
+    15: {'name': 'Tomato', 'disease': 'Bacterial spot'},
+    16: {'name': 'Apple', 'disease': 'Black rot'},
+    17: {'name': 'Blueberry', 'disease': 'healthy'},
+    18: {'name': 'Cherry (including sour)', 'disease': 'Powdery mildew'},
+    19: {'name': 'Peach', 'disease': 'Bacterial spot'},
+    20: {'name': 'Apple', 'disease': 'Cedar apple rust'},
+    21: {'name': 'Tomato', 'disease': 'Target Spot'},
+    22: {'name': 'Pepper, bell', 'disease': 'healthy'},
+    23: {'name': 'Grape', 'disease': 'Leaf blight (Isariopsis Leaf Spot)'},
+    24: {'name': 'Potato', 'disease': 'Late blight'},
+    25: {'name': 'Tomato', 'disease': 'Tomato mosaic virus'},
+    26: {'name': 'Strawberry', 'disease': 'healthy'},
+    27: {'name': 'Apple', 'disease': 'healthy'},
+    28: {'name': 'Grape', 'disease': 'Black rot'},
+    29: {'name': 'Potato', 'disease': 'Early blight'},
+    30: {'name': 'Cherry (including sour)', 'disease': 'healthy'},
+    31: {'name': 'Corn (maize)', 'disease': 'Common rust'},
+    32: {'name': 'Grape', 'disease': 'Esca (Black Measles)'},
+    33: {'name': 'Raspberry', 'disease': 'healthy'},
+    34: {'name': 'Tomato', 'disease': 'Leaf Mold'},
+    35: {'name': 'Tomato', 'disease': 'Spider mites Two-spotted spider mite'},
+    36: {'name': 'Pepper, bell', 'disease': 'Bacterial spot'},
+    37: {'name': 'Corn (maize)', 'disease': 'healthy'}
 }
 
 # Advanced agronomic advisory data
@@ -612,12 +612,12 @@ with col_left:
 with col_right:
     if uploaded_file is not None:
         if model_loaded:
-            details = get_disease_details(label)
-            is_healthy = "healthy" in label.lower()
+            details = get_disease_details(label['disease'])
+            is_healthy = "healthy" in label['disease'].lower()
             
             # Plant Extraction
-            plant_name = label.split("___")[0].split(" (")[0].replace(",", "").capitalize()
-            disease_name = label.split("___")[-1].replace("_", " ").capitalize()
+            plant_name = label['name']
+            disease_name = label['disease']
             
             st.markdown("<div class='premium-card'><div class='card-title'>📈 Classification Result</div>", unsafe_allow_html=True)
             
